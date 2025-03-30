@@ -1,0 +1,13 @@
+types:  
+  Patient:  
+    properties: [id, name, age]  
+    relationships:  
+      - target: Diagnosis  
+        name: HAS_DIAGNOSIS  
+        direction: OUT  
+  Gene:  
+    properties: [symbol, chromosome]  
+    relationships:  
+      - target: Disease  
+        name: ASSOCIATED_WITH  
+        direction: OUT  

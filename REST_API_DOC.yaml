@@ -1,0 +1,112 @@
+openapi: 3.0.3
+info:
+  title: Biomedical Data API
+  version: 1.0.0
+  description: API for managing biomedical data (Patients, Genes, Diagnoses)
+servers:
+  - url: http://api.biomed.org/v1
+tags:
+  - name: Patients
+    description: Patient demographic data
+  - name: Diagnoses
+    description: Disease diagnosis records
+  - name: Genes
+    description: Genetic information
+
+paths:
+  /patients:
+    get:
+      tags: [Patients]
+      summary: List all patients
+      parameters:
+        - name: age
+          in: query
+          schema:
+            type: integer
+          description: Filter by age
+      responses:
+        200:
+          description: List of patients
+          content:
+            application/json:
+              example:
+                - id: "123"
+                  name: "John Doe"
+                  age: 45
+    post:
+      tags: [Patients]
+      summary: Create new patient
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Patient'
+      responses:
+        201:
+          description: Patient created
+          content:
+            application/json:
+              example:
+                id: "123"
+                name: "John Doe"
+                age: 45
+
+  /patients/{id}/diagnoses:
+    get:
+      tags: [Patients]
+      summary: Get patient's diagnoses
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Diagnosis list
+          content:
+            application/json:
+              example:
+                - diagnosis_id: "d456"
+                  disease: "Diabetes"
+                  date: "2023-01-15"
+
+  /genes/{symbol}/diseases:
+    get:
+      tags: [Genes]
+      summary: Get diseases linked to gene
+      parameters:
+        - name: symbol
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "BRCA1"
+      responses:
+        200:
+          description: Associated diseases
+          content:
+            application/json:
+              example:
+                - name: "Breast Cancer"
+                  association_strength: "High"
+
+components:
+  schemas:
+    Patient:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        age:
+          type: integer
+      required: [name, age]
+  
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

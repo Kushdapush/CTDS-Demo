@@ -1,0 +1,28 @@
+types:
+  Patient:
+    properties: [id, name, age]
+    relationships:
+      - target: Diagnosis
+        name: HAS_DIAGNOSIS
+        direction: OUT
+
+  Diagnosis:
+    properties: [date, severity]
+    relationships:
+      - target: Disease
+        name: DIAGNOSED_WITH
+        direction: OUT
+
+  Disease:
+    properties: [name, icd_code]
+    relationships:
+      - target: Gene
+        name: ASSOCIATED_WITH
+        direction: OUT
+
+  Gene:
+    properties: [symbol, chromosome]
+    relationships:
+      - target: Drug
+        name: TARGETED_BY
+        direction: IN
