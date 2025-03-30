@@ -1,0 +1,25 @@
+# Get patients with their diagnoses and linked genes
+query GetPatientGenes {
+  patients {
+    name
+    diagnoses {
+      disease {
+        name
+        genes {
+          symbol
+          drugs {
+            name
+          }
+        }
+      }
+    }
+  }
+}
+
+# Filter diseases by gene
+query GetDiseasesByGene {
+  diseases(where: { genes: { symbol: "BRCA1" } }) {
+    name
+    icd_code
+  }
+}

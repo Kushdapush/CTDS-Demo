@@ -1,0 +1,24 @@
+type Patient {
+  id: ID!
+  name: String!
+  age: Int!
+  diagnoses: [Diagnosis!]! @relationship(name: "HAS_DIAGNOSIS", direction: OUT)
+}
+
+type Diagnosis {
+  date: String!
+  severity: String!
+  disease: Disease! @relationship(name: "DIAGNOSED_WITH", direction: OUT)
+}
+
+type Disease {
+  name: String!
+  icd_code: String!
+  genes: [Gene!]! @relationship(name: "ASSOCIATED_WITH", direction: OUT)
+}
+
+type Gene {
+  symbol: String!
+  chromosome: String!
+  drugs: [Drug!]! @relationship(name: "TARGETED_BY", direction: IN)
+}
